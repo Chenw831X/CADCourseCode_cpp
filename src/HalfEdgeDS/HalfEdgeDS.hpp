@@ -21,11 +21,14 @@ public:
     Solid *Sprev, *Snext;
     Face *Sfaces;
     Edge *Sedges;
+    int faceNum, edgeNum;
 
 public:
     Solid();
     void add_Face(Face *newFace);
+    void del_Face(Face *face);
     void add_Edge(Edge *newEdge);
+    void del_Edge(Edge *e);
 };
 
 class Face{
@@ -33,6 +36,7 @@ public:
     Face *Fprev, *Fnext;
     Solid *Fsolid;
     Loop *Floops;
+    int LoopNum;
 
 public:
     Face();

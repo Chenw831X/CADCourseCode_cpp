@@ -8,7 +8,8 @@
 #include <assert.h>
 #include "HalfEdgeDS.hpp"
 
-Solid::Solid() : Sprev(nullptr), Snext(nullptr), Sfaces(nullptr), Sedges(nullptr){
+Solid::Solid() : Sprev(nullptr), Snext(nullptr), Sfaces(nullptr), Sedges(nullptr),
+    faceNum(0), edgeNum(0){
 
 }
 
@@ -29,6 +30,23 @@ void Solid::add_Face(Face *newFace){
     }
 
     newFace->Fsolid = this;
+    ++faceNum;
+}
+
+void Solid::del_Face(Face *face){
+    assert(face != nullptr);
+
+    if(this->Sfaces == face){
+        this->Sfaces = face->Fnext;
+    }
+    else{
+        face->Fprev->Fnext = face->Fnext;
+        if(face->Fnext != nullptr){
+            face->Fnext->Fprev = face->Fprev;
+        }
+    }
+    delete face;
+    --faceNum;
 }
 
 void Solid::add_Edge(Edge *newEdge){
@@ -46,9 +64,26 @@ void Solid::add_Edge(Edge *newEdge){
         newEdge->Eprev = ptr;
         newEdge->Enext = nullptr;
     }
+    ++edgeNum;
 }
 
-Face::Face() : Fprev(nullptr), Fnext(nullptr), Fsolid(nullptr), Floops(nullptr){
+void Solid::del_Edge(Edge *e){
+    assert(e != nullptr);
+
+    if(this->Sedges == e){
+        this->Sedges = e->Enext;
+    }
+    else{
+        e->Eprev->Enext = e->Enext;
+        if(e->Enext != nullptr){
+            e->Enext->Eprev = e->Eprev;
+        }
+    }
+    delete e;
+    --edgeNum;
+}
+
+Face::Face() : Fprev(nullptr), Fnext(nullptr), Fsolid(nullptr), Floops(nullptr), LoopNum(0){
 
 }
 
@@ -69,6 +104,7 @@ void Face::add_Loop(Loop *newLoop){
     }
 
     newLoop->Lface = this;
+    ++LoopNum;
 }
 
 Loop::Loop() : Lprev(nullptr), Lnext(nullptr), Lface(nullptr), Lhe(nullptr){
@@ -133,6 +169,13 @@ HalfEdge * Loop::findHE(Vertex *v){
 
 void Loop::debug(){
     // print link table of halfedge for debug
+    HalfEdge *ptr = Lhe;
+    do{
+        std::cout << "(" << ptr->v->cor.x << "," << ptr->v->cor.y << "," <<
+            ptr->v->cor.z << ") --> ";
+        ptr = ptr->HEnext;
+    }while(ptr != Lhe);
+    std::cout << std::endl;
 }
 
 Edge::Edge() : Eprev(nullptr), Enext(nullptr), he1(nullptr), he2(nullptr){

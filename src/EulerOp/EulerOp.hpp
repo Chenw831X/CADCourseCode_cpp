@@ -11,11 +11,11 @@
 
 class EulerOp{
 public:
-    static Solid * mvfs(Vertex *v, const glm::vec3 &P);
-    static HalfEdge * mev(Vertex *v1, Vertex *v2, const glm::vec3 &P, Loop *loop);
+    static Solid * mvfs(Vertex * &v, const glm::vec3 &P);
+    static HalfEdge * mev(Vertex *v1, Vertex * &v2, const glm::vec3 &P, Loop *loop);
     static Loop * mef(Vertex *v1, Vertex *v2, Loop *loop);
-
-    static Solid * sweep(Face *face, const glm::vec3 &dir, float dist);
+    static Loop * kemr(Edge *e, Loop *loop);
+    static void kfmrh(Loop *L1, Loop *L2);
 };
 
 #endif

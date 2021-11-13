@@ -8,8 +8,12 @@
 #include <glm/glm.hpp>
 
 #include "EulerOp.hpp"
+#include "Sweep.hpp"
 
-void cube(){
+int displayEulerOp = 1; // 1: display each Euler Operation, 0: otherwise
+
+Solid * cube(){
+    std::cout << "construct cube:" << std::endl;
     Solid *solid;
     Vertex *v[4];
     solid = EulerOp::mvfs(v[0], glm::vec3(0.0, 0.0, 0.0));
@@ -21,11 +25,38 @@ void cube(){
     EulerOp::mev(v[2], v[3], glm::vec3(0.0, 0.0, 1.0), loop);
     EulerOp::mef(v[3], v[0], loop);
 
-    solid = EulerOp::sweep(face, glm::vec3(0.0, 1.0, 0.0), 1.0);
+    solid = Sweep::sweep(face, glm::vec3(0.0, 1.0, 0.0), 1.0);
+    
+    return solid;
+}
+
+void debug(Solid *solid){
+    std::cout << "Number of faces: " << solid->faceNum << std::endl;
+    std::cout << "Number of edges: " << solid->edgeNum << std::endl;
+    std::cout << "--------------------" << std::endl;
+    int faceID = 0;
+    for(Face *faceI=solid->Sfaces; faceI!=nullptr; faceI=faceI->Fnext){
+        std::cout << "Number of loops in Face#" << ++faceID << ": " 
+            << faceI->LoopNum << std::endl;
+    }
+    std::cout << std::endl << std::endl;
+    faceID = 0;
+    std::cout << "Loop Information:" << std::endl;
+    for(Face *faceI=solid->Sfaces; faceI!=nullptr; faceI=faceI->Fnext){
+        std::cout << "Face#" << ++faceID << std::endl;
+        int loopID = 0;
+        for(Loop *loopI=faceI->Floops; loopI!=nullptr; loopI=loopI->Lnext){
+            std::cout << "  Loop#" << ++loopID << ": ";
+            loopI->debug();
+        }
+        std::cout << "-----------------" << std::endl;
+    }
 }
 
 int main(int argc, char **argv){
-    cube();
+    Solid *solid;
+    solid = cube();
+    debug(solid);
 
     return 0;
 }

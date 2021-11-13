@@ -5,9 +5,15 @@
 // Created by Wei Chen on 11/11/21
 //
 
+#include <iostream>
 #include "EulerOp.hpp"
 
-Solid * EulerOp::mvfs(Vertex *v, const glm::vec3 &P){
+extern int displayEulerOp;
+
+Solid * EulerOp::mvfs(Vertex * &v, const glm::vec3 &P){
+    if(displayEulerOp){
+        std::cout << "    --mvfs--" << std::endl;
+    }
     v = new Vertex();
     v->cor = P;
 
@@ -20,7 +26,10 @@ Solid * EulerOp::mvfs(Vertex *v, const glm::vec3 &P){
     return solid;
 }
 
-HalfEdge * EulerOp::mev(Vertex *v1, Vertex *v2, const glm::vec3 &P, Loop *loop){
+HalfEdge * EulerOp::mev(Vertex *v1, Vertex * &v2, const glm::vec3 &P, Loop *loop){
+    if(displayEulerOp){
+        std::cout << "    --mev--" << std::endl;
+    }
     assert(v1 != nullptr);
     assert(loop != nullptr);
 
@@ -43,6 +52,9 @@ HalfEdge * EulerOp::mev(Vertex *v1, Vertex *v2, const glm::vec3 &P, Loop *loop){
 }
 
 Loop * EulerOp::mef(Vertex *v1, Vertex *v2, Loop *loop){
+    if(displayEulerOp){
+        std::cout << "    --mef--" << std::endl;
+    }
     assert(v1 != nullptr);
     assert(v2 != nullptr);
     assert(loop != nullptr);
@@ -82,28 +94,51 @@ Loop * EulerOp::mef(Vertex *v1, Vertex *v2, Loop *loop){
     return newLoop;
 }
 
-Solid * EulerOp::sweep(Face *face, const glm::vec3 &dir, float dist){
-    Solid *solid = face->Fsolid;
-
-    for(Loop *loop=face->Floops; loop!=nullptr; loop=loop->Lnext){
-        HalfEdge *he = loop->Lhe;
-        Vertex *firstV = he->v, *firstV_up;
-        glm::vec3 firstV_up_cor = firstV->cor + dir * dist;
-        mev(firstV, firstV_up, firstV_up_cor, loop);
-        Vertex *last_up = firstV_up;
-
-        he = he->HEnext;
-        Vertex *now = he->v, *now_up;
-        while(now != firstV){
-            glm::vec3 now_up_cor = now->cor + dir * dist;
-            mev(now, now_up, now_up_cor, loop);
-            mef(now_up, last_up, loop);
-            last_up = now_up;
-            he = he->HEnext;
-            now = he->v;
-        }
-        mef(firstV_up, last_up, loop);
+// @Input:
+//    e: edge to be killed
+//    loop: loop that e belongs to
+// @Output:
+//    newLoop: new loop after kill edge e
+Loop * EulerOp::kemr(Edge *e, Loop *loop){
+    if(displayEulerOp){
+        std::cout << "    --kemr--" << std::endl;
     }
+    assert(e != nullptr);
+    assert(loop != nullptr);
 
-    return solid;
+    HalfEdge *he1 = e->he1, *he2 = e->he2;
+    Face *face = loop->Lface;
+    Solid *solid = face->Fsolid;
+    solid->del_Edge(e);
+
+    he1->HEprev->HEnext = he2->HEnext;
+    he1->HEnext->HEprev = he2->HEprev;
+    he2->HEprev->HEnext = he1->HEnext;
+    he2->HEnext->HEprev = he1->HEprev;
+    
+    Loop *newLoop = new Loop();
+    loop->Lhe = he1->HEnext;
+    newLoop->Lhe = he2->HEnext;
+    face->add_Loop(newLoop);
+
+    delete he1;
+    delete he2;
+    return newLoop;
+}
+
+// @Input:
+//    L1:
+//    L2: delete F2(face that L2 belongs to), and add L2 to F1(face that L1 belongs to)
+void EulerOp::kfmrh(Loop *L1, Loop *L2){
+    if(displayEulerOp){
+        std::cout << "    --kfmrh--" << std::endl;
+    }
+    assert(L1 != nullptr);
+    assert(L2 != nullptr);
+
+    Face *F1 = L1->Lface, *F2 = L2->Lface;
+    Solid *solid = F1->Fsolid;
+    solid->del_Face(F2);
+
+    F1->add_Loop(L2);
 }
