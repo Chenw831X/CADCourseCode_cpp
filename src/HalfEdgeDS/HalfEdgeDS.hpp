@@ -37,6 +37,7 @@ public:
     Solid *Fsolid;
     Loop *Floops;
     int LoopNum;
+    glm::vec3 color;
 
 public:
     Face();
@@ -48,6 +49,7 @@ public:
     Loop *Lprev, *Lnext;
     Face *Lface;
     HalfEdge *Lhe;
+    bool inner;
 
 public:
     Loop();

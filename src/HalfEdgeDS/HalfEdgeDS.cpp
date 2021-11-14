@@ -83,8 +83,8 @@ void Solid::del_Edge(Edge *e){
     --edgeNum;
 }
 
-Face::Face() : Fprev(nullptr), Fnext(nullptr), Fsolid(nullptr), Floops(nullptr), LoopNum(0){
-
+Face::Face() : Fprev(nullptr), Fnext(nullptr), Fsolid(nullptr), Floops(nullptr), LoopNum(0),
+    color(rand() % 256 / 255.0f, rand() % 256 / 255.0f, rand() % 256 / 255.0f){
 }
 
 void Face::add_Loop(Loop *newLoop){
@@ -107,7 +107,7 @@ void Face::add_Loop(Loop *newLoop){
     ++LoopNum;
 }
 
-Loop::Loop() : Lprev(nullptr), Lnext(nullptr), Lface(nullptr), Lhe(nullptr){
+Loop::Loop() : Lprev(nullptr), Lnext(nullptr), Lface(nullptr), Lhe(nullptr), inner(false){
 
 }
 

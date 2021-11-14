@@ -9,6 +9,7 @@
 
 #include "EulerOp.hpp"
 #include "Sweep.hpp"
+#include "Draw.hpp"
 
 int displayEulerOp = 1; // 1: display each Euler Operation, 0: otherwise
 
@@ -29,6 +30,7 @@ Solid * cube(){
     
     return solid;
 }
+
 
 void debug(Solid *solid){
     std::cout << "Number of faces: " << solid->faceNum << std::endl;
@@ -57,6 +59,10 @@ int main(int argc, char **argv){
     Solid *solid;
     solid = cube();
     debug(solid);
+
+    Draw::init();
+    Draw::draw(solid);
+    Draw::end();
 
     return 0;
 }
