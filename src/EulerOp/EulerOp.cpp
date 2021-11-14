@@ -98,7 +98,7 @@ Loop * EulerOp::mef(Vertex *v1, Vertex *v2, Loop *loop){
 //    e: edge to be killed
 //    loop: loop that e belongs to
 // @Output:
-//    newLoop: new loop after kill edge e
+//    newLoop: new loop after kill edge e, newLoop is inner
 Loop * EulerOp::kemr(Edge *e, Loop *loop){
     if(displayEulerOp){
         std::cout << "    --kemr--" << std::endl;
@@ -117,8 +117,8 @@ Loop * EulerOp::kemr(Edge *e, Loop *loop){
     he2->HEnext->HEprev = he1->HEprev;
     
     Loop *newLoop = new Loop();
-    loop->Lhe = he1->HEnext;
-    newLoop->Lhe = he2->HEnext;
+    loop->Lhe = he2->HEnext;
+    newLoop->Lhe = he1->HEnext;
     face->add_Loop(newLoop);
 
     delete he1;
