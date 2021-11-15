@@ -4,28 +4,24 @@
 
 ### 项目结构
 
----
-
 ```C++
 .
 ├── Draw  // 使用OpenGL绘制实体模型
-	├── Draw.hpp
+    ├── Draw.hpp
     ├── Draw.cpp
 ├── EulerOp  // 实现五个基本欧拉操作
-	├── EulerOp.hpp
+    ├── EulerOp.hpp
     ├── EulerOp.cpp
 ├── HalfEdgeDS  // 半边数据结构
-	├── HalfEdgeDS.hpp
+    ├── HalfEdgeDS.hpp
     ├── HalfEdgeDS.cpp
 ├── Sweep // 扫成操作
-	├── Sweep.hpp
+    ├── Sweep.hpp
     ├── Sweep.cpp
 ├── main.cpp  // 构造三个例子
 ```
 
 ### 编译方法
-
----
 
 #### 依赖
 
@@ -55,8 +51,6 @@ make
 编译成功后，会在build目录下生成`CADCourseCode_cpp`可执行文件。
 
 ### 使用方法
-
----
 
 `CADCourseCode_cpp`可以输入命令行参数（`1`，`2`，`3`），用于选择待构造的实体模型（不输入参数时，默认选择`2`--`sixteen_hole`）：
 
