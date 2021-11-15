@@ -70,12 +70,12 @@ make
 
 * `cube`
 
-<img src="/home/cw/MyCode/CADCourseCode_cpp/docs/cube.png" style="zoom: 67%;" />
+<img src="docs/cube.png" style="zoom: 67%;" />
 
 * `sixteen_hole`
 
-<img src="/home/cw/MyCode/CADCourseCode_cpp/docs/sixteen_hole.png" style="zoom: 50%;" />
+<img src="docs/sixteen_hole.png" style="zoom: 50%;" />
 
 * `two_rods`
 
-<img src="/home/cw/MyCode/CADCourseCode_cpp/docs/two_rods.png" style="zoom: 80%;" />
+<img src="docs/two_rods.png" style="zoom: 80%;" />
