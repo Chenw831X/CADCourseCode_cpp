@@ -4,6 +4,8 @@
 // Created by Wei Chen on 11/11/21
 //
 
+// define Half-Edge data structure
+
 #ifndef HALFEDGEDS_HPP
 #define HALFEDGEDS_HPP
 

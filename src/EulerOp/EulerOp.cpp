@@ -51,6 +51,10 @@ HalfEdge * EulerOp::mev(Vertex *v1, Vertex * &v2, const glm::vec3 &P, Loop *loop
     return he1;
 }
 
+// @Input:
+//    v1, v2, loop: construct an edge from v1 to v2 in loop
+// @Output:
+//    newLoop: 'new loop' (inner), thus 'loop' refer to outer
 Loop * EulerOp::mef(Vertex *v1, Vertex *v2, Loop *loop){
     if(displayEulerOp){
         std::cout << "    --mef--" << std::endl;

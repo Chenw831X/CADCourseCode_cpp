@@ -4,6 +4,8 @@
 // Created by Wei Chen on 11/13/21
 //
 
+// implement sweep operation based on Euler Operation
+
 #ifndef SWEEP_HPP
 #define SWEEP_HPP
 

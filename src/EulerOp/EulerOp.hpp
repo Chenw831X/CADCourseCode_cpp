@@ -4,6 +4,8 @@
 // Created by Wei Chen on 11/11/21
 //
 
+// implement 5 base Euler Operations as static function
+
 #ifndef EULEROP_HPP
 #define EULEROP_HPP
 
